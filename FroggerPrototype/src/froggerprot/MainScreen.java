@@ -24,7 +24,7 @@ public class MainScreen extends JPanel implements ActionListener
     Player player;
     Rectangle goal;
     Timer t = new Timer(30, this);
-    int delayed = 1500;
+    int delayed = 750;
     Timer spawn = new Timer(delayed, this);
     Image background;
     int level = 1;
@@ -123,7 +123,7 @@ public class MainScreen extends JPanel implements ActionListener
         if(plr.intersects(goal))
         {
             JOptionPane.showMessageDialog(null,"You won level: " + level);
-           delayed = delayed - 500;
+           delayed = delayed /2;
            level = level + 1;
            speed = speed + 2;
            player.x = 400;
