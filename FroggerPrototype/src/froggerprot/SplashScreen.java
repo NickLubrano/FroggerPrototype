@@ -22,7 +22,7 @@ public class SplashScreen extends JPanel implements ActionListener
         startButton = new JButton("Start Game");
         startButton.setBounds(0,0,100,25);
         startButton.addActionListener(this);
-        this.add(startButton);
+        add(startButton);
     }
     @Override
     public void actionPerformed(ActionEvent ae)
@@ -31,9 +31,9 @@ public class SplashScreen extends JPanel implements ActionListener
         if(o == startButton)
         {
             MainScreen ms = new MainScreen();
-            this.getParent().add(ms);
-            this.setVisible(false);
-            this.disable();
+            getParent().add(ms);
+            setVisible(false);
+            disable();
         }
     }
 }
