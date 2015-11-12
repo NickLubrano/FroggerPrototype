@@ -12,17 +12,11 @@ public class Frogger extends JFrame
     
     public Frogger()
     {
-        MainScreen ms = new MainScreen();
         SplashScreen ss = new SplashScreen();
         add(ss);
         setVisible(true);
         pack();
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-    }
-    public void start()
-    {
-        MainScreen ms = new MainScreen();
-        add(ms);
     }
 }
