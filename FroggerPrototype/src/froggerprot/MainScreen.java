@@ -39,7 +39,7 @@ public class MainScreen extends JPanel implements ActionListener
         setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         setVisible(true);
         
-        ImageIcon ii = new ImageIcon("src\\froggerprot\\road.png");
+        ImageIcon ii = new ImageIcon(/*"src\\froggerprot\\road.png"*/"images/frogger_game_board.png");
         background = ii.getImage();
         
         obstacles = new ArrayList<Sprite>();
