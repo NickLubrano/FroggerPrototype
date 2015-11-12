@@ -24,8 +24,12 @@ public class MainScreen extends JPanel implements ActionListener
     Player player;
     Rectangle goal;
     Timer t = new Timer(30, this);
-    Timer spawn = new Timer(1500, this);
+    int delayed = 1500;
+    Timer spawn = new Timer(delayed, this);
     Image background;
+    int level = 1;
+    int newlevel = 1;
+    int speed = 3;
     
     public MainScreen()
     {
@@ -102,17 +106,36 @@ public class MainScreen extends JPanel implements ActionListener
             //Consider reseting to the beginning of the level
             //Tell user he or she has been hit
             player.lives = player.lives - 1;
+            player.x = 400;
+            player.y = 500;
+            repaint();
         }
         if(!player.checkCondition())
         {
-            JOptionPane.showMessageDialog(null, "You Lost!", "", 1);
+            player.lives = player.lives +1;
+            JOptionPane.showMessageDialog(null, "You lost level: " + newlevel);
             t.stop();
+            
+            
+            
+            
         }
         if(plr.intersects(goal))
         {
-            JOptionPane.showMessageDialog(null, "You Won!", "", 1);
-            t.stop();
+            JOptionPane.showMessageDialog(null,"You won level: " + level);
+           delayed = delayed - 500;
+           level = level + 1;
+           speed = speed + 2;
+           player.x = 400;
+           player.y = 500;
+           newlevel = level;
+           repaint();
+           
+          
+           
+           
         }
+       
     }
     
     @Override
@@ -121,12 +144,14 @@ public class MainScreen extends JPanel implements ActionListener
         Object o = ae.getSource();
         if(o == t)
         {
+            
             for(int i = 0; i < obstacles.size(); i++)
             {
-                obstacles.get(i).x = obstacles.get(i).x + 3;
+                obstacles.get(i).x = obstacles.get(i).x + speed;
                 
                 checkCollisions(player.checkBounds(), obstacles.get(i).checkBounds());
                 repaint();
+                  
             }
         }
         if(o == spawn)
