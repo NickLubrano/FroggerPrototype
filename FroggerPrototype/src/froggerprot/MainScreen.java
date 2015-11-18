@@ -24,17 +24,14 @@ public class MainScreen extends JPanel implements ActionListener
     Player player;
     Rectangle goal;
     Timer t = new Timer(30, this);
-    int delayed = 750;
-    Timer spawn = new Timer(delayed, this);
+    Timer spawn = new Timer(1500, this);
     Image background;
-    int level = 1;
-    int newlevel = 1;
-    int speed = 3;
     
     public MainScreen()
     {
         setup();
         setFocusable(true);
+        start();
     }
     
     public void setup()
@@ -44,14 +41,18 @@ public class MainScreen extends JPanel implements ActionListener
         setVisible(true);
         
         ImageIcon ii = new ImageIcon("src\\froggerprot\\road.png");
-        background = ii.getImage();
-        
-        obstacles = new ArrayList<Sprite>();
+        background = ii.getImage();   
+        goal = new Rectangle(0, 0, 800, 20);  
         player = new Player(400, 500, "src\\froggerprot\\chickenback.png");
-        goal = new Rectangle(0, 0, 800, 20);
+    }
+    
+    public void start()
+    {
+        player.x = 400;
+        player.y = 500;
+        obstacles = new ArrayList<Sprite>();    
         t.start();
         spawn.start();
-        
     }
     
     @Override
@@ -103,40 +104,32 @@ public class MainScreen extends JPanel implements ActionListener
     {
         if(plr.intersects(obs))
         {
-            //Consider reseting to the beginning of the level
-            //Tell user he or she has been hit
-            player.lives = player.lives - 1;
-            player.x = 400;
-            player.y = 500;
-            repaint();
-        }
-        if(!player.checkCondition())
-        {
-            player.lives = player.lives +1;
-            JOptionPane.showMessageDialog(null, "You lost level: " + newlevel);
+            player.lives =  player.lives - 1;
+            JOptionPane.showMessageDialog(null, "You Lost! \nLives Remaining:" + player.lives, "", 0);
             t.stop();
-            
-            
-            
-            
-        }
+            newGame();
+         }
         if(plr.intersects(goal))
         {
-            JOptionPane.showMessageDialog(null,"You won level: " + level);
-           delayed = delayed /2;
-           level = level + 1;
-           speed = speed + 2;
-           player.x = 400;
-           player.y = 500;
-           newlevel = level;
-           repaint();
-           
-          
-           
-           
+            JOptionPane.showMessageDialog(null, "You Won!", "", 1);
+            t.stop();
         }
+    }
+    
+    public void newGame()
+    {
+       if (player.checkCondition()==false)
+       {
+          JOptionPane.showMessageDialog(null, "Game Over!", "", 0); 
+          System.exit(1);
+       }
+       else
+       {
+        start();
+       }
        
     }
+    
     
     @Override
     public void actionPerformed(ActionEvent ae)
@@ -144,14 +137,11 @@ public class MainScreen extends JPanel implements ActionListener
         Object o = ae.getSource();
         if(o == t)
         {
-            
             for(int i = 0; i < obstacles.size(); i++)
             {
-                obstacles.get(i).x = obstacles.get(i).x + speed;
-                
+                obstacles.get(i).x = obstacles.get(i).x + 3;
                 checkCollisions(player.checkBounds(), obstacles.get(i).checkBounds());
                 repaint();
-                  
             }
         }
         if(o == spawn)
