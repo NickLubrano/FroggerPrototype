@@ -1,7 +1,9 @@
 
 package froggerprot;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
@@ -12,6 +14,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -28,12 +32,30 @@ public class MainScreen extends JPanel implements ActionListener
     Timer spawn = new Timer(1500, this);
     Image background;
     int speed=3;
+    int level = 1;
+    int lives = 3;
+    JLabel levelLabel;
+    JLabel livesLabel;
+    
+    
+    
+    
+   
+    
+
+    
+    
     
     public MainScreen()
     {
+        
+        setLayout(null);
         setup();
         setFocusable(true);
         start();
+        
+ 
+      
     }
     
     public void setup()
@@ -46,15 +68,35 @@ public class MainScreen extends JPanel implements ActionListener
         background = ii.getImage();   
         goal = new Rectangle(0, 0, 800, 20);  
         player = new Player(400, 500, "src\\froggerprot\\chickenback.png");
+        
+        levelLabel = new JLabel("Level: "+level);
+        add(levelLabel);
+        levelLabel.setBounds(0,0,100,75);
+        levelLabel.setForeground(Color.white);
+        
+        livesLabel = new JLabel("Lives: "+lives);
+        add(livesLabel);
+        livesLabel.setBounds(101,0,100,75);
+        livesLabel.setForeground(Color.white);
+        
+        
     }
     
     public void start()
     {
+        
+    lives = player.lives;
+    level = player.level;
+        
+        
         player.x = 400;
         player.y = 500;
         obstacles = new ArrayList<Sprite>();    
         t.start();
         spawn.start();
+        
+        
+        
     }
     
     @Override
@@ -71,6 +113,8 @@ public class MainScreen extends JPanel implements ActionListener
         }
         
         Toolkit.getDefaultToolkit().sync();
+        
+       
     }
     
     private class TAdapter extends KeyAdapter
@@ -116,13 +160,22 @@ public class MainScreen extends JPanel implements ActionListener
             JOptionPane.showMessageDialog(null, "You Lost! \nLives Remaining:" + player.lives, "", 0);
             t.stop();
             newGame();
+            livesLabel.setText("Lives: "+player.lives);
          }
         if(plr.intersects(goal))
         {
-            JOptionPane.showMessageDialog(null, "You Won!", "", 1);
+            
+            JOptionPane.showMessageDialog(null, "You Won Level: " + player.level, "", 1);
             speed = speed+2;
+            player.level++;
+            
             t.stop();
             newGame();
+            levelLabel.setText("Level: " +player.level);
+            
+            
+            
+            
         }
     }
     
@@ -130,15 +183,20 @@ public class MainScreen extends JPanel implements ActionListener
     {
        if (player.checkCondition()==false)
        {
+          
           JOptionPane.showMessageDialog(null, "Game Over!", "", 0); 
           System.exit(1);
        }
        else
        {
+        
         start();
+       
        }
        
     }
+    
+   
     
     
     @Override
@@ -151,7 +209,10 @@ public class MainScreen extends JPanel implements ActionListener
             {
                 obstacles.get(i).x = obstacles.get(i).x + speed;
                 checkCollisions(player.checkBounds(), obstacles.get(i).checkBounds());
+                 
+       
                 repaint();
+    
             }
         }
         if(o == spawn)
