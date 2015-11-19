@@ -79,7 +79,7 @@ public class MainScreen extends JPanel implements ActionListener
         public void keyReleased(KeyEvent ke)
         {
             player.keyReleased(ke);
-            player.move();
+            player.processKeys();
             repaint();
         }
         
@@ -87,7 +87,7 @@ public class MainScreen extends JPanel implements ActionListener
         public void keyPressed(KeyEvent ke)
         {
             player.keyPressed(ke);
-            player.move();
+            player.processKeys();
             repaint();
         }
     }
