@@ -79,8 +79,6 @@ public class MainScreen extends JPanel implements ActionListener
         public void keyReleased(KeyEvent ke)
         {
             player.keyReleased(ke);
-            player.processKeys();
-            repaint();
         }
         
         @Override
@@ -88,7 +86,6 @@ public class MainScreen extends JPanel implements ActionListener
         {
             player.keyPressed(ke);
             player.processKeys();
-            repaint();
         }
     }
     
