@@ -26,6 +26,7 @@ public class MainScreen extends JPanel implements ActionListener
     Timer t = new Timer(30, this);
     Timer spawn = new Timer(1500, this);
     Image background;
+    int speed=3;
     
     public MainScreen()
     {
@@ -112,7 +113,9 @@ public class MainScreen extends JPanel implements ActionListener
         if(plr.intersects(goal))
         {
             JOptionPane.showMessageDialog(null, "You Won!", "", 1);
+            speed = speed+2;
             t.stop();
+            newGame();
         }
     }
     
@@ -139,7 +142,7 @@ public class MainScreen extends JPanel implements ActionListener
         {
             for(int i = 0; i < obstacles.size(); i++)
             {
-                obstacles.get(i).x = obstacles.get(i).x + 3;
+                obstacles.get(i).x = obstacles.get(i).x + speed;
                 checkCollisions(player.checkBounds(), obstacles.get(i).checkBounds());
                 repaint();
             }
