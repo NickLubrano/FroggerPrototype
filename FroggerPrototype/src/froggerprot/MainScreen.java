@@ -212,7 +212,7 @@ public class MainScreen extends JPanel implements ActionListener
         start();
        
        }
-       
+       player.buttonsPressed.clear();
     }
     
    
