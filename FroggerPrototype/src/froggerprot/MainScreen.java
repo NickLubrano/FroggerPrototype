@@ -1,4 +1,3 @@
-
 package froggerprot;
 
 import java.awt.Color;
@@ -12,6 +11,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -34,28 +40,30 @@ public class MainScreen extends JPanel implements ActionListener
     int speed=3;
     int level = 1;
     int lives = 3;
+    String highScore;
     JLabel levelLabel;
     JLabel livesLabel;
-    
-    
-    
-    
-   
-    
+    JLabel scoreLabel;
+    boolean gameOver = false;
+       
 
-    
-    
-    
     public MainScreen()
-    {
-        
+    { 
         setLayout(null);
+        try (BufferedReader br = new BufferedReader(new FileReader("score.txt"))) {
+
+            String sCurrentLine;
+
+            while ((sCurrentLine = br.readLine()) != null) {
+                highScore = sCurrentLine;
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         setup();
         setFocusable(true);
-        start();
-        
- 
-      
+        start(); 
     }
     
     public void setup()
@@ -79,24 +87,20 @@ public class MainScreen extends JPanel implements ActionListener
         livesLabel.setBounds(101,0,100,75);
         livesLabel.setForeground(Color.white);
         
-        
+        scoreLabel = new JLabel("High Score: Level "+highScore);
+        add(scoreLabel);
+        scoreLabel.setBounds(610,0,300,75);
+        scoreLabel.setForeground(Color.white);  
     }
     
     public void start()
     {
-        
-    lives = player.lives;
-    
-        
-        
+        lives = player.lives;
         player.x = 400;
         player.y = 500;
         obstacles = new ArrayList<Sprite>();    
         t.start();
-        spawn.start();
-        
-        
-        
+        spawn.start(); 
     }
     
     @Override
@@ -113,9 +117,7 @@ public class MainScreen extends JPanel implements ActionListener
         }
         
         Toolkit.getDefaultToolkit().sync();
-        
-       
-    }
+   }
     
     private class TAdapter extends KeyAdapter
     {
@@ -190,11 +192,7 @@ public class MainScreen extends JPanel implements ActionListener
             
             t.stop();
             newGame();
-            levelLabel.setText("Level: " +level);
-            
-            
-            
-            
+            levelLabel.setText("Level: " +level);     
         }
     }
     
@@ -202,20 +200,39 @@ public class MainScreen extends JPanel implements ActionListener
     {
        if (player.checkCondition()==false)
        {
-          
+          writeScore();
           JOptionPane.showMessageDialog(null, "Game Over!", "", 0); 
           System.exit(1);
        }
        else
        {
-        
-        start();
-       
+        start();    
        }
        player.buttonsPressed.clear();
     }
     
-   
+   public void writeScore()
+    {
+        BufferedWriter writer = null;
+        try {
+            File logFile = new File("score.txt");
+
+            writer = new BufferedWriter(new FileWriter(logFile));
+            writer.write(String.valueOf(level));
+            
+        } catch (Exception e) 
+        {
+            e.printStackTrace();
+        } 
+        finally {
+            try 
+            {             
+                writer.close();
+            } 
+            catch (Exception e) {
+            }
+        }
+    }
     
     
     @Override
