@@ -139,6 +139,7 @@ public class MainScreen extends JPanel implements ActionListener
         Random randomGenerator = new Random();
         
         int randGen = 1 + randomGenerator.nextInt(4);
+        int randGen2 = 1 + randomGenerator.nextInt(4);
         
         int xLocation = -100;
         //int y1Location = 280 + randomGenerator.nextInt(240);
@@ -147,16 +148,16 @@ public class MainScreen extends JPanel implements ActionListener
         switch (randGen)
         {
             case 1: randGen = 1;
-                yLocation = 70;
+                yLocation = 85;
                 break;
             case 2: randGen = 2;
-                yLocation = 130;
+                yLocation = 145;
                 break;
             case 3: randGen = 3;
-                yLocation = 180;
+                yLocation = 195;
                 break;
             case 4: randGen = 4;
-                yLocation = 240;
+                yLocation = 255;
                 break;
         }
         //int x1Location = -100 + (int)(Math.random());
@@ -165,8 +166,8 @@ public class MainScreen extends JPanel implements ActionListener
         //int x2Location = -100 + (int)(Math.random() * ((-100 - 0) + 1));
         int y2Location = 1 + (int)(Math.random() * ((4 - 1) + 1));
         
-        Sprite car = new Sprite(xLocation , 240 + (yLocation), "src\\froggerprot\\car.png");
-        Sprite boat = new Sprite(xLocation , (y2Location * 45), "src\\froggerprot\\sail boat.png");
+        Sprite car = new Sprite((xLocation-randomGenerator.nextInt(50)) , 240 + (yLocation), "src\\froggerprot\\car.png");
+        Sprite boat = new Sprite((xLocation-randomGenerator.nextInt(50)) , (y2Location * 45), "src\\froggerprot\\sail boat.png");
         obstacles.add(car);
         obstacles.add(boat);
     }
