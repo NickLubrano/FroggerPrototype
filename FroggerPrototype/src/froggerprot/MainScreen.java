@@ -86,7 +86,7 @@ public class MainScreen extends JPanel implements ActionListener
     {
         
     lives = player.lives;
-    level = player.level;
+    
         
         
         player.x = 400;
@@ -165,13 +165,13 @@ public class MainScreen extends JPanel implements ActionListener
         if(plr.intersects(goal))
         {
             
-            JOptionPane.showMessageDialog(null, "You Won Level: " + player.level, "", 1);
+            JOptionPane.showMessageDialog(null, "You Won Level: " + level, "", 1);
             speed = speed+2;
-            player.level++;
+            level++;
             
             t.stop();
             newGame();
-            levelLabel.setText("Level: " +player.level);
+            levelLabel.setText("Level: " +level);
             
             
             
