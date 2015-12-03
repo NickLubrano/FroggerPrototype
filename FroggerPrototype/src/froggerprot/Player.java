@@ -16,7 +16,7 @@ public class Player extends Sprite
         lives = 3;
     }
     
-    ArrayList buttonsPressed = new ArrayList();
+    ArrayList<Integer> buttonsPressed = new ArrayList<Integer>();
     
     public void keyPressed(KeyEvent e)
     {
@@ -28,7 +28,8 @@ public class Player extends Sprite
     
     public void keyReleased(KeyEvent e)
     {
-        buttonsPressed.remove(e.getKeyCode());
+        Integer releaseKeyCode = new Integer(e.getKeyCode());
+        buttonsPressed.remove(releaseKeyCode);
     }
     
     public void processKeys()
