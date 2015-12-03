@@ -15,6 +15,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import java.util.Random;
 
 public class MainScreen extends JPanel implements ActionListener
 {
@@ -41,7 +42,7 @@ public class MainScreen extends JPanel implements ActionListener
         setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         setVisible(true);
         
-        ImageIcon ii = new ImageIcon("src\\froggerprot\\road.png");
+        ImageIcon ii = new ImageIcon("src\\froggerprot\\frogger_game_board.jpeg");
         background = ii.getImage();   
         goal = new Rectangle(0, 0, 800, 20);  
         player = new Player(400, 500, "src\\froggerprot\\chickenback.png");
@@ -91,11 +92,20 @@ public class MainScreen extends JPanel implements ActionListener
     
     public void createEnemy()
     {
-        int xLocation = -100 + (int)(Math.random() * ((-100 - 0) + 1));
-        int yLocation = 1 + (int)(Math.random() * ((4 - 1) + 1));
+        Random randomGenerator = new Random();
         
-        Sprite car = new Sprite(xLocation , (yLocation * 90), "src\\froggerprot\\car.png");
+        //int x1Location = -100 + (int)(Math.random());
+        //int y1Location = (int)(Math.random());
+        int xLocation = -100;
+        int y1Location = 280 + randomGenerator.nextInt(240);
+        
+        //int x2Location = -100 + (int)(Math.random() * ((-100 - 0) + 1));
+        int y2Location = 1 + (int)(Math.random() * ((4 - 1) + 1));
+        
+        Sprite car = new Sprite(xLocation , (y1Location), "src\\froggerprot\\car.png");
+        Sprite boat = new Sprite(xLocation , (y2Location * 45), "src\\froggerprot\\sail boat.png");
         obstacles.add(car);
+        obstacles.add(boat);
     }
     
     public void checkCollisions(Rectangle plr, Rectangle obs)
